@@ -1,4 +1,16 @@
 import 'package:flutter/material.dart';
+import 'dart:io';
+import 'dart:convert';
+
+final _controller = TextEditingController();
+
+void writeToJson() async {
+  final text = _controller.text;
+  final jsonText = jsonEncode({"user_info": text});
+
+  final file = File('credentials.json');
+  await file.writeAsString(jsonText);
+}
 
 class MyHomePage extends StatefulWidget {
   const MyHomePage({super.key});
@@ -25,6 +37,7 @@ class _MyHomePageState extends State<MyHomePage> {
             ),
             const SizedBox(height: 10),
             TextFormField(
+              controller: _controller,
               maxLines: null,
               textAlign: TextAlign.center,
               style: const TextStyle(
@@ -44,6 +57,7 @@ class _MyHomePageState extends State<MyHomePage> {
             right: 20.0,
             child: FloatingActionButton.extended(
               onPressed: () {
+                writeToJson();
                 Navigator.pushNamed(context, '/details');
               },
               label: Row(

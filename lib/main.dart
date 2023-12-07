@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:hackathon/home.dart';
 import 'package:hackathon/details.dart';
+import 'package:hackathon/slider.dart';
 
 void main() {
   runApp(const MyApp());
@@ -15,6 +16,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       routes: {
         '/details': (context) => const DetailsPage(),
+        '/slider': (context) => const SliderPage(),
       },
       title: 'Flutter Demo',
       theme: ThemeData(

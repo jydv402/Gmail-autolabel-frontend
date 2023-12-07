@@ -21,7 +21,9 @@ class _DetailsPageState extends State<DetailsPage> {
             bottom: 20.0,
             right: 20.0,
             child: FloatingActionButton.extended(
-              onPressed: () {},
+              onPressed: () {
+                Navigator.pushNamed(context, '/slider');
+              },
               label: Row(
                 children: <Widget>[
                   Text('Next',
