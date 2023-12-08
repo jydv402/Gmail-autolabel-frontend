@@ -7,9 +7,10 @@ final _controller = TextEditingController();
 
 void writeToJson() async {
   final text = _controller.text;
-  final jsonText = jsonEncode({"user_info": text});
+  final jsonText =
+      jsonEncode({"user_info": text, "label_mapping": {}, "max_result": Null});
 
-  final file = File('credentials.json');
+  final file = File('user_info.json');
   await file.writeAsString(jsonText);
 }
 

@@ -21,6 +21,7 @@ class MyApp extends StatelessWidget {
         '/slider': (context) => const SliderPage(),
         '/load': (context) => const LoadingPage(),
         '/result': (context) => const ResultPage(),
+        '/label': (context) => const Labels(),
       },
       title: 'Flutter Demo',
       theme: ThemeData(

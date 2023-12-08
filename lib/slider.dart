@@ -2,6 +2,9 @@ import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:flutter/material.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 
+import 'dart:convert';
+import 'dart:io';
+
 class SliderPage extends StatefulWidget {
   const SliderPage({super.key});
 
@@ -11,6 +14,13 @@ class SliderPage extends StatefulWidget {
 
 class _SliderPageState extends State<SliderPage> {
   double _value = 0;
+
+  Future<void> writeToJson() async {
+    var input = await File('user_info.json').readAsString();
+    var map = jsonDecode(input);
+    map['max_result'] = _value.toInt();
+    await File('user_info.json').writeAsString(jsonEncode(map));
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -57,6 +67,7 @@ class _SliderPageState extends State<SliderPage> {
                       onChanged: (double newValue) {
                         setState(() {
                           _value = newValue;
+                          writeToJson();
                         });
                       },
                     ),
