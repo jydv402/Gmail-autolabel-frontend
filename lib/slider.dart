@@ -94,7 +94,7 @@ class _SliderPageState extends State<SliderPage> {
           ),
           Positioned(
             bottom: 20.0,
-            left: 50,
+            left: 52,
             child: FloatingActionButton.extended(
               onPressed: () {
                 Navigator.pushNamed(context, '/details');

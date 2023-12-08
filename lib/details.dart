@@ -40,7 +40,17 @@ class _DetailsPageState extends State<DetailsPage> {
           ),
           Positioned(
             bottom: 20.0,
-            left: 50,
+            right: (MediaQuery.of(context).size.width / 2) - 44,
+            child: FloatingActionButton(
+              onPressed: () {
+                // Add your onPressed code here
+              },
+              child: const Icon(Icons.add, color: Colors.black),
+            ),
+          ),
+          Positioned(
+            bottom: 20.0,
+            left: 52,
             child: FloatingActionButton.extended(
               onPressed: () {
                 Navigator.pushNamed(context, '/');
