@@ -11,7 +11,7 @@ class DetailsPage extends StatefulWidget {
 }
 
 class _DetailsPageState extends State<DetailsPage> {
-  Map<String, String> map = {};
+  Map<String, String> labelMapping = {};
 
   @override
   void initState() {
@@ -21,59 +21,105 @@ class _DetailsPageState extends State<DetailsPage> {
 
   Future<void> initializeData() async {
     var input = await File('user_info.json').readAsString();
-    map = jsonDecode(input)['label_mapping'];
-  }
-
-  Future<Map<String, String>> readJsonFile(String filePath) async {
-    var input = await File('user_info.json').readAsString();
     var map = jsonDecode(input);
-    return map['label_mapping'];
+    labelMapping = Map<String, String>.from(map['label_mapping'] as Map);
+    setState(() {});
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.black,
-      body: Center(
-        child: DataTable(
-          columns: const <DataColumn>[
-            DataColumn(label: Text('Label')),
-            DataColumn(label: Text('Description')),
-            DataColumn(label: Text('Edit')),
-          ],
-          rows: map.entries
-              .map((entry) => DataRow(cells: [
-                    DataCell(Text(entry.key)),
-                    DataCell(Text(entry.value)),
-                    const DataCell(
-                        Text('Edit')), // Replace with your edit widget
-                  ]))
-              .toList(),
+      body: Padding(
+        padding: EdgeInsets.symmetric(
+            horizontal: MediaQuery.of(context).size.width * 0.1),
+        child: Center(
+          child: labelMapping.isEmpty
+              ? Text(
+                  "Add a new Label",
+                  style: Theme.of(context).textTheme.bodyLarge,
+                )
+              : SingleChildScrollView(
+                  child: DataTable(
+                    columns: <DataColumn>[
+                      DataColumn(
+                          label: Padding(
+                        padding: const EdgeInsets.only(right: 50),
+                        child: Text(
+                          'Label',
+                          style: Theme.of(context).textTheme.bodyMedium,
+                        ),
+                      )),
+                      DataColumn(
+                          label: Padding(
+                        padding: const EdgeInsets.only(right: 500),
+                        child: Text('Description',
+                            style: Theme.of(context).textTheme.bodyMedium),
+                      )),
+                      DataColumn(
+                          label: Text('Delete',
+                              style: Theme.of(context).textTheme.bodyMedium)),
+                    ],
+                    rows: labelMapping.entries
+                        .map((entry) => DataRow(cells: [
+                              DataCell(Text(entry.key,
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .bodySmall
+                                      ?.copyWith(color: Colors.white))),
+                              DataCell(Text(entry.value,
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .bodySmall
+                                      ?.copyWith(color: Colors.white))),
+                              DataCell(IconButton(
+                                icon: const Icon(
+                                  Icons.close_rounded,
+                                  color: Colors.white,
+                                ),
+                                onPressed: () async {
+                                  setState(() {
+                                    labelMapping.remove(entry.key);
+                                  });
+                                  var input = await File('user_info.json')
+                                      .readAsString();
+                                  var map = jsonDecode(input);
+                                  map['label_mapping'] = labelMapping;
+                                  await File('user_info.json')
+                                      .writeAsString(jsonEncode(map));
+                                },
+                                hoverColor: Colors.red.shade300,
+                              )),
+                            ]))
+                        .toList(),
+                  ),
+                ),
         ),
       ),
       floatingActionButton: Stack(
         children: <Widget>[
-          Positioned(
-            bottom: 20.0,
-            right: 20.0,
-            child: FloatingActionButton.extended(
-              onPressed: () {
-                Navigator.pushNamed(context, '/slider');
-              },
-              label: Row(
-                children: <Widget>[
-                  Text('Next',
-                      style: Theme.of(context)
-                          .textTheme
-                          .bodyMedium
-                          ?.copyWith(color: Colors.black)),
-                  const SizedBox(width: 16),
-                  const Icon(Icons.arrow_forward_ios_rounded,
-                      color: Colors.black),
-                ],
+          if (labelMapping.isNotEmpty)
+            Positioned(
+              bottom: 20.0,
+              right: 20.0,
+              child: FloatingActionButton.extended(
+                onPressed: () {
+                  Navigator.pushNamed(context, '/slider');
+                },
+                label: Row(
+                  children: <Widget>[
+                    Text('Next',
+                        style: Theme.of(context)
+                            .textTheme
+                            .bodyMedium
+                            ?.copyWith(color: Colors.black)),
+                    const SizedBox(width: 16),
+                    const Icon(Icons.arrow_forward_ios_rounded,
+                        color: Colors.black),
+                  ],
+                ),
               ),
             ),
-          ),
           Positioned(
             bottom: 20.0,
             right: (MediaQuery.of(context).size.width / 2) - 44,
@@ -187,6 +233,7 @@ class _LabelsState extends State<Labels> {
             child: FloatingActionButton.extended(
               onPressed: () {
                 writeToJson();
+
                 Navigator.pushNamed(context, '/details');
               },
               label: Text('Save',
