@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:hackathon/home.dart';
 import 'package:hackathon/details.dart';
+import 'package:hackathon/result.dart';
 import 'package:hackathon/slider.dart';
 
 void main() {
@@ -15,12 +16,14 @@ class MyApp extends StatelessWidget {
     double ipBorder = 16;
     return MaterialApp(
       routes: {
+        '/': (context) => const MyHomePage(),
         '/details': (context) => const DetailsPage(),
         '/slider': (context) => const SliderPage(),
+        '/load': (context) => const LoadingPage(),
+        '/result': (context) => const ResultPage(),
       },
       title: 'Flutter Demo',
       theme: ThemeData(
-        primarySwatch: Colors.purple,
         floatingActionButtonTheme:
             const FloatingActionButtonThemeData(backgroundColor: Colors.white),
         inputDecorationTheme: InputDecorationTheme(
@@ -41,14 +44,24 @@ class MyApp extends StatelessWidget {
                 borderSide: const BorderSide(color: Colors.transparent),
                 borderRadius: BorderRadius.circular(ipBorder))),
         textTheme: const TextTheme(
+            bodySmall: TextStyle(
+                color: Colors.black,
+                fontWeight: FontWeight.normal,
+                fontSize: 18,
+                fontFamily: 'Product'),
             bodyMedium: TextStyle(
-                color: Colors.white, fontSize: 18, fontWeight: FontWeight.w500),
+                color: Colors.white,
+                fontSize: 18,
+                fontWeight: FontWeight.w500,
+                fontFamily: 'Product'),
             bodyLarge: TextStyle(
                 color: Colors.white,
-                fontSize: 36,
-                fontWeight: FontWeight.bold)),
+                fontSize: 42,
+                fontWeight: FontWeight.bold,
+                fontFamily: 'Product')),
+        colorScheme: ColorScheme.fromSwatch(primarySwatch: Colors.purple)
+            .copyWith(background: Colors.black),
       ),
-      home: const MyHomePage(),
     );
   }
 }

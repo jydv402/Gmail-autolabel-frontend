@@ -1,3 +1,4 @@
+import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:flutter/material.dart';
 import 'dart:io';
 import 'dart:convert';
@@ -31,9 +32,18 @@ class _MyHomePageState extends State<MyHomePage> {
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Text(
-              '\tHello World',
-              style: Theme.of(context).textTheme.bodyLarge,
+            AnimatedTextKit(
+              animatedTexts: [
+                TypewriterAnimatedText(
+                  'What defines you the best?',
+                  textStyle: Theme.of(context)
+                      .textTheme
+                      .bodyLarge
+                      ?.copyWith(color: Colors.white),
+                  speed: const Duration(milliseconds: 50),
+                ),
+              ],
+              totalRepeatCount: 1,
             ),
             const SizedBox(height: 10),
             TextFormField(
@@ -43,7 +53,8 @@ class _MyHomePageState extends State<MyHomePage> {
               style: const TextStyle(
                   color: Colors.black,
                   fontWeight: FontWeight.normal,
-                  fontSize: 18),
+                  fontSize: 18,
+                  fontFamily: 'Product'),
               cursorColor: Colors.black,
               decoration: const InputDecoration(),
             )
