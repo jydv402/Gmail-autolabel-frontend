@@ -79,30 +79,31 @@ class _SliderPageState extends State<SliderPage> {
       ),
       floatingActionButton: Stack(
         children: [
-          Positioned(
-            bottom: 20.0,
-            right: 20.0,
-            child: FloatingActionButton.extended(
-              onPressed: () {
-                Navigator.pushNamed(context, '/load');
-                Future.delayed(const Duration(seconds: 5), () {
-                  Navigator.pushNamed(context, '/result');
-                });
-              },
-              label: Row(
-                children: <Widget>[
-                  Text('Generate',
-                      style: Theme.of(context)
-                          .textTheme
-                          .bodyMedium
-                          ?.copyWith(color: Colors.black)),
-                  const SizedBox(width: 16),
-                  const Icon(Icons.arrow_forward_ios_rounded,
-                      color: Colors.black),
-                ],
+          if (_value != 0)
+            Positioned(
+              bottom: 20.0,
+              right: 20.0,
+              child: FloatingActionButton.extended(
+                onPressed: () {
+                  Navigator.pushNamed(context, '/load');
+                  Future.delayed(const Duration(seconds: 5), () {
+                    Navigator.pushNamed(context, '/result');
+                  });
+                },
+                label: Row(
+                  children: <Widget>[
+                    Text('Generate',
+                        style: Theme.of(context)
+                            .textTheme
+                            .bodyMedium
+                            ?.copyWith(color: Colors.black)),
+                    const SizedBox(width: 16),
+                    const Icon(Icons.arrow_forward_ios_rounded,
+                        color: Colors.black),
+                  ],
+                ),
               ),
             ),
-          ),
           Positioned(
             bottom: 20.0,
             left: 52,
