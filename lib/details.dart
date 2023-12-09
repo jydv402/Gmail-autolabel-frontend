@@ -124,6 +124,7 @@ class _DetailsPageState extends State<DetailsPage> {
             bottom: 20.0,
             right: (MediaQuery.of(context).size.width / 2) - 44,
             child: FloatingActionButton(
+              tooltip: "Add Label",
               onPressed: () {
                 Navigator.pushNamed(context, '/label');
               },

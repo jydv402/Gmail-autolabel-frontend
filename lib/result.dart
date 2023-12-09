@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:csv/csv.dart';
+import 'dart:convert';
+import 'dart:io';
 
 class ResultPage extends StatefulWidget {
   const ResultPage({super.key});
@@ -12,8 +15,32 @@ class _ResultPageState extends State<ResultPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.black,
-      body: const Center(
-        child: Text("Result"),
+      body: Center(
+        child: DataTable(
+          columns: <DataColumn>[
+            DataColumn(
+                label: Text(
+              'Status',
+              style: Theme.of(context).textTheme.bodyMedium,
+            )),
+            DataColumn(
+                label: Text(
+              'Subjects',
+              style: Theme.of(context).textTheme.bodyMedium,
+            )),
+            DataColumn(
+                label: Text(
+              'Label',
+              style: Theme.of(context).textTheme.bodyMedium,
+            )),
+            DataColumn(
+                label: Text(
+              'Reason',
+              style: Theme.of(context).textTheme.bodyMedium,
+            )),
+          ],
+          rows: const [],
+        ),
       ),
       floatingActionButton: Stack(
         children: [
@@ -21,6 +48,7 @@ class _ResultPageState extends State<ResultPage> {
             bottom: 20.0,
             left: 52,
             child: FloatingActionButton.extended(
+              tooltip: "Go back to HomePage",
               onPressed: () {
                 Navigator.pushNamed(context, '/');
               },
