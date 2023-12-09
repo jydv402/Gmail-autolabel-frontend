@@ -11,6 +11,21 @@ class ResultPage extends StatefulWidget {
 }
 
 class _ResultPageState extends State<ResultPage> {
+  List<List<dynamic>> csvTable = [];
+
+  @override
+  void initState() {
+    super.initState();
+    readCSV();
+  }
+
+  void readCSV() async {
+    File csvPath = File('logs.csv');
+    String csvData = await csvPath.readAsString();
+    List<List<dynamic>> csvTable = const CsvToListConverter().convert(csvData);
+    print(csvTable);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
