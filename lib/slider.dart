@@ -25,7 +25,7 @@ class _SliderPageState extends State<SliderPage> {
   Future<void> writeToJson() async {
     var input = await File('user_info.json').readAsString();
     var map = jsonDecode(input);
-    map['max_result'] = _value.toInt();
+    map['max_results'] = _value.toInt();
     await File('user_info.json').writeAsString(jsonEncode(map));
   }
 
