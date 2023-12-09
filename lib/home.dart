@@ -45,6 +45,11 @@ class _MyHomePageState extends State<MyHomePage> {
     await file.writeAsString(jsonText);
   }
 
+  void submitForm() {
+    writeToJson();
+    Navigator.pushNamed(context, '/details');
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -71,7 +76,12 @@ class _MyHomePageState extends State<MyHomePage> {
             ),
             const SizedBox(height: 10),
             TextFormField(
+              keyboardType: TextInputType.text, // Adjust as needed
+              textInputAction: TextInputAction.done,
               controller: _controller,
+              onFieldSubmitted: (value) {
+                submitForm();
+              },
               maxLines: null,
               textAlign: TextAlign.center,
               style: const TextStyle(
@@ -92,8 +102,7 @@ class _MyHomePageState extends State<MyHomePage> {
             right: 20.0,
             child: FloatingActionButton.extended(
               onPressed: () {
-                writeToJson();
-                Navigator.pushNamed(context, '/details');
+                submitForm();
               },
               label: Row(
                 children: <Widget>[
