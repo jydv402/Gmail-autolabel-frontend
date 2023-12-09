@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:csv/csv.dart';
-import 'dart:convert';
 import 'dart:io';
 
 class ResultPage extends StatefulWidget {
@@ -22,39 +21,98 @@ class _ResultPageState extends State<ResultPage> {
   void readCSV() async {
     File csvPath = File('logs.csv');
     String csvData = await csvPath.readAsString();
-    List<List<dynamic>> csvTable = const CsvToListConverter().convert(csvData);
-    print(csvTable);
+    setState(() {
+      csvTable = const CsvToListConverter().convert(csvData);
+    });
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.black,
-      body: Center(
-        child: DataTable(
-          columns: <DataColumn>[
-            DataColumn(
-                label: Text(
-              'Status',
-              style: Theme.of(context).textTheme.bodyMedium,
-            )),
-            DataColumn(
-                label: Text(
-              'Subjects',
-              style: Theme.of(context).textTheme.bodyMedium,
-            )),
-            DataColumn(
-                label: Text(
-              'Label',
-              style: Theme.of(context).textTheme.bodyMedium,
-            )),
-            DataColumn(
-                label: Text(
-              'Reason',
-              style: Theme.of(context).textTheme.bodyMedium,
-            )),
-          ],
-          rows: const [],
+      body: Padding(
+        padding: EdgeInsets.symmetric(
+            horizontal: MediaQuery.of(context).size.width * 0.06),
+        child: Center(
+          child: SingleChildScrollView(
+            child: Column(
+              children: [
+                const SizedBox(
+                  height: 20,
+                ),
+                DataTable(
+                  // dataRowMinHeight: 20,
+                  dataRowMaxHeight: 80,
+                  columns: <DataColumn>[
+                    DataColumn(
+                        label: Text(
+                      'Status',
+                      style: Theme.of(context).textTheme.bodyMedium,
+                    )),
+                    DataColumn(
+                        label: Text(
+                      'Subjects',
+                      style: Theme.of(context).textTheme.bodyMedium,
+                    )),
+                    DataColumn(
+                        label: Text(
+                      'Label',
+                      style: Theme.of(context).textTheme.bodyMedium,
+                    )),
+                    DataColumn(
+                        label: Text(
+                      'Reason',
+                      style: Theme.of(context).textTheme.bodyMedium,
+                    )),
+                  ],
+                  rows: [
+                    for (List<dynamic> row in csvTable)
+                      DataRow(
+                        cells: <DataCell>[
+                          DataCell(Text(row[0].toString(),
+                              style: row[0].toString() == "SUCCESS"
+                                  ? Theme.of(context)
+                                      .textTheme
+                                      .bodySmall
+                                      ?.copyWith(
+                                          color: Colors.green.shade400,
+                                          fontSize: 12)
+                                  : Theme.of(context)
+                                      .textTheme
+                                      .bodySmall
+                                      ?.copyWith(
+                                          color: Colors.red, fontSize: 12))),
+                          DataCell(Padding(
+                            padding: const EdgeInsets.symmetric(vertical: 4),
+                            child: Text(row[1].toString(),
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .bodySmall
+                                    ?.copyWith(
+                                        color: Colors.white, fontSize: 16)),
+                          )),
+                          DataCell(Text(row[2].toString(),
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .bodySmall
+                                  ?.copyWith(
+                                      color: Colors.white, fontSize: 16))),
+                          DataCell(Text(row[3].toString(),
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .bodySmall
+                                  ?.copyWith(
+                                      color: Colors.white, fontSize: 16))),
+                        ],
+                      ),
+                  ],
+                ),
+                const SizedBox(
+                  height: 100,
+                ),
+              ],
+            ),
+          ),
         ),
       ),
       floatingActionButton: Stack(
