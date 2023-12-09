@@ -3,17 +3,6 @@ import 'package:flutter/material.dart';
 import 'dart:io';
 import 'dart:convert';
 
-final _controller = TextEditingController();
-
-void writeToJson() async {
-  final text = _controller.text;
-  final file = File('user_info.json');
-  final jsonText =
-      jsonEncode({"user_info": text, "label_mapping": {}, "max_result": 0});
-
-  await file.writeAsString(jsonText);
-}
-
 class MyHomePage extends StatefulWidget {
   const MyHomePage({super.key});
 
@@ -22,6 +11,37 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
+  Map<String, String> labelMapping = {};
+
+  @override
+  void initState() {
+    super.initState();
+    initializeData();
+  }
+
+  Future<void> initializeData() async {
+    var input = await File('user_info.json').readAsString();
+    var map = jsonDecode(input);
+    labelMapping = Map<String, String>.from(map['label_mapping'] as Map);
+    setState(() {});
+  }
+
+  final _controller = TextEditingController();
+
+  void writeToJson() async {
+    final text = _controller.text;
+    final file = File('user_info.json');
+    final String jsonText;
+    if (file.existsSync()) {
+      jsonText = jsonEncode(
+          {"user_info": text, "label_mapping": labelMapping, "max_result": 0});
+    } else {
+      jsonText =
+          jsonEncode({"user_info": text, "label_mapping": {}, "max_result": 0});
+    }
+    await file.writeAsString(jsonText);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
