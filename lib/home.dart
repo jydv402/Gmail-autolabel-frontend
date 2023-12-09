@@ -11,7 +11,9 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
+  String userInfo = "";
   Map<String, String> labelMapping = {};
+  late final _controller = TextEditingController();
 
   @override
   void initState() {
@@ -23,10 +25,11 @@ class _MyHomePageState extends State<MyHomePage> {
     var input = await File('user_info.json').readAsString();
     var map = jsonDecode(input);
     labelMapping = Map<String, String>.from(map['label_mapping'] as Map);
-    setState(() {});
+    userInfo = map['user_info'];
+    setState(() {
+      _controller.text = userInfo;
+    });
   }
-
-  final _controller = TextEditingController();
 
   void writeToJson() async {
     final text = _controller.text;
