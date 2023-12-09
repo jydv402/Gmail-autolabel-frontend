@@ -8,7 +8,7 @@ import 'dart:io';
 Future<void> generateTags() async {
   // Call the exe
   print(Directory.current);
-  var result = await Process.run(r'bin\a.exe', []);
+  var result = await Process.run('auto_label.exe', []);
   print(result.stdout);
 }
 

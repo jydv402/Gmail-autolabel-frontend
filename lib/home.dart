@@ -37,10 +37,10 @@ class _MyHomePageState extends State<MyHomePage> {
     final String jsonText;
     if (file.existsSync()) {
       jsonText = jsonEncode(
-          {"user_info": text, "label_mapping": labelMapping, "max_result": 0});
+          {"user_info": text, "label_mapping": labelMapping, "max_results": 0});
     } else {
-      jsonText =
-          jsonEncode({"user_info": text, "label_mapping": {}, "max_result": 0});
+      jsonText = jsonEncode(
+          {"user_info": text, "label_mapping": {}, "max_results": 0});
     }
     await file.writeAsString(jsonText);
   }
