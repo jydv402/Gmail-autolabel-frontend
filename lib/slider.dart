@@ -5,6 +5,13 @@ import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'dart:convert';
 import 'dart:io';
 
+Future<void> generateTags() async {
+  // Call the exe
+  print(Directory.current);
+  var result = await Process.run(r'bin\a.exe', []);
+  print(result.stdout);
+}
+
 class SliderPage extends StatefulWidget {
   const SliderPage({super.key});
 
@@ -84,11 +91,13 @@ class _SliderPageState extends State<SliderPage> {
               bottom: 20.0,
               right: 20.0,
               child: FloatingActionButton.extended(
-                onPressed: () {
+                onPressed: () async {
                   Navigator.pushNamed(context, '/load');
-                  Future.delayed(const Duration(seconds: 5), () {
-                    Navigator.pushNamed(context, '/result');
-                  });
+                  await generateTags();
+                  Navigator.pushNamed(context, '/result');
+
+                  // Future.delayed(const Duration(seconds: 5), () {
+                  // });
                 },
                 label: Row(
                   children: <Widget>[
