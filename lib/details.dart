@@ -244,6 +244,20 @@ class _LabelsState extends State<Labels> {
                       ?.copyWith(color: Colors.black)),
             ),
           ),
+          Positioned(
+            bottom: 20.0,
+            left: 52,
+            child: FloatingActionButton.extended(
+              onPressed: () {
+                Navigator.pushNamed(context, '/details');
+              },
+              label: Text('Exit',
+                  style: Theme.of(context)
+                      .textTheme
+                      .bodyMedium
+                      ?.copyWith(color: Colors.black)),
+            ),
+          ),
         ],
       ),
     );
