@@ -1,2 +1,2 @@
-# Gmail-autolabel-forntend
+# Gmail-autolabel-frontend
 
